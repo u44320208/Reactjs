@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { createContainer } from 'meteor/react-meteor-data';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 import { Tasks } from '../api/tasks.js';
  
@@ -24,7 +25,7 @@ class App extends Component {
   }
   
   hideInputtest() {
-	var el =ReactDOM.findDOMNode(this.refs.textInput)
+	var el = ReactDOM.findDOMNode(this.refs.textInput)
 	$(el).fadeToggle();
   }
 
@@ -38,12 +39,14 @@ class App extends Component {
     return (
 	  
 	  <div id="container">
-			<h1>To-Do List <i className="fa fa-plus" onClick={this.hideInputtest.bind(this)}></i></h1>
+			<h1>To-Do List ({this.props.incompleteCount}) <i className="fa fa-plus" onClick={this.hideInputtest.bind(this)}></i></h1>
 			<form className="new-task" onSubmit={this.handleSubmit.bind(this)} >
 				<input type="text" placeholder="Type to add new tasks" ref="textInput" />
 			</form>
 			<ul>
-				{this.renderTasks()}
+				<ReactCSSTransitionGroup transitionName = "listAnimate" transitionEnterTimeout = {500} transitionLeaveTimeout = {500}>
+					{this.renderTasks()}
+				</ReactCSSTransitionGroup>
 			</ul>
 		</div>
 		
@@ -58,5 +61,6 @@ App.propTypes = {
 export default createContainer(() => {
   return {
     tasks: Tasks.find({}, { sort: { createdAt: -1 } }).fetch(),
+	incompleteCount: Tasks.find({ checked: { $ne: true } }).count(),
   };
 }, App);

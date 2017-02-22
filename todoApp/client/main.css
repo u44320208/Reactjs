@@ -43,7 +43,7 @@ li:nth-child(2n){
 	background: #f7f7f7;
 }
 
-span {
+.del {
 	background: #e74c3c;
 	height: 40px;
 	margin-right: 20px;
@@ -55,7 +55,7 @@ span {
 	opacity: 0;
 }
 
-li:hover span {
+li:hover .del {
 	width: 40px;
 	opacity: 1.0;
 }
@@ -86,4 +86,23 @@ input:focus{
 .completed {
 	color: gray;
 	text-decoration: line-through;
+}
+
+/********** For Animation ************/
+.listAnimate-enter {
+   opacity: 0.01;
+}
+
+.listAnimate-enter.listAnimate-enter-active {
+   opacity: 1;
+   transition: opacity 500ms ease-in;
+}
+
+.listAnimate-leave {
+   opacity: 1;
+}
+
+.listAnimate-leave.listAnimate-leave-active {
+   opacity: 0.01;
+   transition: opacity 500ms ease-in;
 }
